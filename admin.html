@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — T&T Viaje Asia</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--s1:#111;--s2:#181818;--s3:#222;
+  --w:#fff;--ws:rgba(255,255,255,.65);--wm:rgba(255,255,255,.3);--wd:rgba(255,255,255,.07);
+  --b:rgba(255,255,255,.1);--bs:rgba(255,255,255,.2);
+  --y:#E8FF00;--yb:rgba(232,255,0,.1);--ybb:rgba(232,255,0,.25);
+  --g:#34D399;--gb:rgba(52,211,153,.1);--gbb:rgba(52,211,153,.3);
+  --o:#FB923C;--ob:rgba(251,146,60,.1);--obb:rgba(251,146,60,.3);
+  --r:#ff5c5c;--rb:rgba(255,92,92,.1);--rbb:rgba(255,92,92,.3);
+  --p:#C084FC;--pb:rgba(192,132,252,.1);--pbb:rgba(192,132,252,.3);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--w);min-height:100vh}
+.header{background:var(--s1);border-bottom:1px solid var(--b);padding:0 24px;display:flex;align-items:center;gap:12px;height:54px}
+.logo{font-size:18px;font-weight:900;letter-spacing:1px}
+.logo b{color:var(--y)}
+.badge{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border:1px solid var(--ybb);background:var(--yb);color:var(--y);border-radius:4px}
+.fase-pill{font-size:11px;font-weight:700;padding:4px 12px;border-radius:6px}
+.f1{background:var(--ob);color:var(--o);border:1px solid var(--obb)}
+.f2{background:var(--gb);color:var(--g);border:1px solid var(--gbb)}
+.f3{background:var(--pb);color:var(--p);border:1px solid var(--pbb)}
+.ml{margin-left:auto;display:flex;align-items:center;gap:8px}
+.main{max-width:920px;margin:0 auto;padding:28px 20px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:24px}
+.stat{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:16px}
+.sn{font-size:28px;font-weight:800;color:var(--y);letter-spacing:-1px}
+.sl{font-size:10px;color:var(--wm);margin-top:3px;text-transform:uppercase;letter-spacing:.1em}
+.tabs{display:flex;gap:4px;margin-bottom:20px;flex-wrap:wrap}
+.tab{padding:8px 16px;border:1px solid var(--b);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--wm);font-family:inherit;transition:all .15s;letter-spacing:.03em}
+.tab.active{background:var(--yb);color:var(--y);border-color:var(--ybb)}
+.tab:hover{background:var(--wd);color:var(--ws)}
+.slabel{font-size:10px;font-weight:700;color:var(--wm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.card{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:18px 22px;margin-bottom:12px}
+label{font-size:10px;color:var(--wm);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.07em}
+input[type=text],input[type=password],input[type=email],textarea{width:100%;padding:9px 12px;border:1px solid var(--b);border-radius:8px;font-size:13px;background:var(--s2);color:var(--w);font-family:inherit;transition:border-color .15s}
+input:focus,textarea:focus{outline:none;border-color:var(--y)}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+.field{margin-bottom:14px}
+.g3{display:grid;grid-template-columns:1fr 1fr auto;gap:12px;align-items:end}
+.btn{padding:9px 18px;border:1px solid var(--b);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;background:transparent;color:var(--w);font-family:inherit;transition:all .15s;white-space:nowrap}
+.btn:hover{background:var(--wd)}
+.btn-y{background:var(--y);color:var(--bg);border-color:var(--y)}
+.btn-y:hover{background:#d4e800}
+.btn-g{background:var(--gb);color:var(--g);border-color:var(--gbb)}
+.btn-g:hover{background:rgba(52,211,153,.2)}
+.btn-p{background:var(--pb);color:var(--p);border-color:var(--pbb)}
+.btn-p:hover{background:rgba(192,132,252,.2)}
+.btn-r{color:var(--r);border-color:transparent}
+.btn-r:hover{background:var(--rb);border-color:var(--rbb)}
+.btn-sm{padding:5px 10px;font-size:11px}
+.divider{border:none;border-top:1px solid var(--b);margin:18px 0}
+.gc{background:var(--s1);border:1px solid var(--b);border-radius:14px;padding:14px 18px;margin-bottom:8px}
+.gc-top{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap}
+.gc-letra{font-size:26px;font-weight:900;color:var(--y);min-width:32px}
+.gc-meta{flex:1}
+.gc-nom{font-size:14px;font-weight:700}
+.gc-sub{font-size:11px;color:var(--wm);margin-top:2px}
+.code-b{font-size:11px;padding:2px 9px;border-radius:4px;background:var(--yb);color:var(--y);font-family:monospace;border:1px solid var(--ybb);letter-spacing:.08em}
+.tag{font-size:11px;background:var(--s2);border:1px solid var(--b);border-radius:4px;padding:2px 6px;color:var(--ws)}
+.tag-list{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.match-tag{background:var(--gb);color:var(--g);border-color:var(--gbb)}
+.super-tag{background:var(--yb);color:var(--y);border-color:var(--ybb)}
+.alert{border-radius:8px;padding:10px 14px;font-size:12px;margin-bottom:12px}
+.alert-ok{background:var(--gb);color:var(--g);border:1px solid var(--gbb)}
+.alert-err{background:var(--rb);color:var(--r);border:1px solid var(--rbb)}
+.alert-warn{background:var(--ob);color:var(--o);border:1px solid var(--obb)}
+.empty{text-align:center;padding:32px;color:var(--wm);font-size:13px}
+.modal-ov{position:fixed;inset:0;background:rgba(0,0,0,.85);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(6px);padding:16px}
+.modal{background:var(--s1);border:1px solid var(--bs);border-radius:18px;padding:24px;width:100%;max-width:500px;max-height:88vh;overflow-y:auto}
+.modal-title{font-size:16px;font-weight:800;margin-bottom:16px}
+.flex-end{display:flex;justify-content:flex-end;gap:8px;margin-top:16px}
+#login-wrap{min-height:100vh;display:flex;align-items:center;justify-content:center}
+.login-box{background:var(--s1);border:1px solid var(--b);border-radius:18px;padding:32px 28px;width:340px}
+.login-logo{font-size:24px;font-weight:900;color:var(--y);margin-bottom:4px}
+.login-sub{font-size:12px;color:var(--wm);margin-bottom:22px}
+.sp{display:inline-block;width:13px;height:13px;border:1.5px solid rgba(255,255,255,.15);border-top-color:var(--y);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.res-card{background:var(--s2);border:1px solid var(--b);border-radius:10px;padding:12px 16px;margin-bottom:8px}
+.res-nom{font-size:14px;font-weight:800;color:var(--y);margin-bottom:3px}
+.res-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;letter-spacing:.06em;margin-left:8px}
+.rb-super{background:var(--yb);color:var(--y);border:1px solid var(--ybb)}
+.rb-match{background:var(--gb);color:var(--g);border:1px solid var(--gbb)}
+.rb-solo{background:var(--s2);color:var(--wm);border:1px solid var(--b)}
+.fase-actions{background:var(--s2);border:1px solid var(--b);border-radius:12px;padding:16px;margin-top:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.fa-label{font-size:12px;color:var(--wm);flex:1}
+</style>
+</head>
+<body>
+
+<div id="login-wrap">
+  <div class="login-box">
+    <div class="login-logo">T<b>&</b>T</div>
+    <div class="login-sub">Panel de administracion — Viaje Asia</div>
+    <div class="field"><label>Contrasena</label><input type="password" id="inp-pw" placeholder="Contrasena"/></div>
+    <div id="login-err" class="alert alert-err" style="display:none"></div>
+    <button class="btn btn-y" style="width:100%" id="btn-login">Ingresar</button>
+  </div>
+</div>
+
+<div id="app" style="display:none">
+  <div class="header">
+    <div class="logo">T<b>&</b>T</div>
+    <div class="badge">Admin</div>
+    <span class="fase-pill f1" id="fase-pill">FASE 1</span>
+    <div class="ml">
+      <button class="btn btn-sm" id="btn-refresh">↻ Actualizar</button>
+      <button class="btn btn-sm btn-r" id="btn-limpiar">Limpiar todo</button>
+      <button class="btn btn-sm" id="btn-logout">Salir</button>
+    </div>
+  </div>
+
+  <div class="main">
+    <div id="gmsg"></div>
+    <div class="stats">
+      <div class="stat"><div class="sn" id="sg1">—</div><div class="sl">Grupos F1</div></div>
+      <div class="stat"><div class="sn" id="se1">—</div><div class="sl">Estudiantes</div></div>
+      <div class="stat"><div class="sn" id="sv1">—</div><div class="sl">Votaron F1</div></div>
+      <div class="stat"><div class="sn" id="sm1">—</div><div class="sl">Con match F1</div></div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active" data-s="f1">Fase 1 — Grupos</button>
+      <button class="tab" data-s="f2">Fase 2 — Match</button>
+      <button class="tab" data-s="f3">Fase 3 — Match Final</button>
+    </div>
+
+    <!-- FASE 1 -->
+    <div id="sec-f1">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <div class="slabel" style="margin:0">Grupos registrados</div>
+        <div style="display:flex;gap:6px">
+          <button class="btn btn-sm btn-r" id="btn-reset-v1">Borrar votos F1</button>
+        </div>
+      </div>
+      <div id="grupos1-list"></div>
+      <div class="fase-actions">
+        <span class="fa-label">Cuando todos hayan votado en Fase 1, activa la Fase 2 para generar los grupos combinados.</span>
+        <button class="btn btn-g" id="btn-activar-f2">Activar Fase 2</button>
+      </div>
+    </div>
+
+    <!-- FASE 2 -->
+    <div id="sec-f2" style="display:none">
+      <div class="slabel">Resultado de matches — Fase 1</div>
+      <div id="resultado1-list"></div>
+      <div class="divider"></div>
+      <div class="slabel">Grupos combinados para votar en Fase 2</div>
+      <div id="grupos2-list"></div>
+      <div class="fase-actions">
+        <span class="fa-label">Cuando todos hayan votado en Fase 2, activa la Fase 3 para el match final con posibilidad de supermatch.</span>
+        <button class="btn btn-sm btn-r" style="margin-right:8px" id="btn-reset-v2">Borrar votos F2</button>
+        <button class="btn btn-p" id="btn-activar-f3">Activar Fase 3</button>
+      </div>
+    </div>
+
+    <!-- FASE 3 -->
+    <div id="sec-f3" style="display:none">
+      <div class="slabel">Resultado de matches — Fase 2</div>
+      <div id="resultado2-list"></div>
+      <div class="divider"></div>
+      <div class="slabel">Grupos en Fase 3 (match + supermatch)</div>
+      <div id="grupos3-list"></div>
+      <div class="fase-actions">
+        <span class="fa-label">Resultado final con los 3 grandes grupos de viaje.</span>
+        <button class="btn btn-sm btn-r" id="btn-reset-v3">Borrar votos F3</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL EDITAR INTEGRANTES -->
+<div class="modal-ov" id="modal-edit" style="display:none">
+  <div class="modal">
+    <div class="modal-title">Editar integrantes</div>
+    <input type="hidden" id="edit-id"/>
+    <div class="field"><label>Integrantes (uno por linea)</label><textarea id="edit-ints" style="min-height:200px"></textarea></div>
+    <div id="edit-msg"></div>
+    <div class="flex-end">
+      <button class="btn" id="btn-cancel-edit">Cancelar</button>
+      <button class="btn btn-y" id="btn-save-edit">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SURL = "https://script.google.com/macros/s/AKfycby6w3JAn3Te2zPesdETVecxCf3oFv7RGmyO4gi0iLA5p6RYVmihw-lZ8Nhln3aAgCI/exec";
+let pw="", data=null;
+
+async function api(body, timeout=20000) {
+  const flat={};
+  Object.keys(body).forEach(k=>{ flat[k]=typeof body[k]==="object"?JSON.stringify(body[k]):body[k]; });
+  const ctrl=new AbortController(); const tid=setTimeout(()=>ctrl.abort(),timeout);
+  try {
+    const res=await fetch(SURL+"?"+new URLSearchParams(flat),{method:"GET",redirect:"follow",signal:ctrl.signal});
+    clearTimeout(tid);
+    const txt=await res.text();
+    try{return JSON.parse(txt);}catch(e){return{ok:false,error:"Respuesta invalida"};}
+  } catch(e) { clearTimeout(tid); return{ok:false,error:e.name==="AbortError"?"Tiempo de espera agotado":"Error de conexion"}; }
+}
+
+function msg(txt,type="ok"){ const el=document.getElementById("gmsg"); el.innerHTML=`<div class="alert alert-${type}">${txt}</div>`; setTimeout(()=>el.innerHTML="",5000); }
+
+document.getElementById("btn-login").addEventListener("click",async()=>{
+  const p=document.getElementById("inp-pw").value.trim(); if(!p) return;
+  const btn=document.getElementById("btn-login"); btn.innerHTML=`<span class="sp"></span>`;btn.disabled=true;
+  const r=await api({action:"admin_login",password:p});
+  btn.innerHTML="Ingresar";btn.disabled=false;
+  if(r.ok){ pw=p; document.getElementById("login-wrap").style.display="none"; document.getElementById("app").style.display="block"; cargar(); }
+  else { const el=document.getElementById("login-err"); el.textContent=r.error||"Contrasena incorrecta"; el.style.display="block"; }
+});
+document.getElementById("inp-pw").addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("btn-login").click();});
+document.getElementById("btn-logout").addEventListener("click",()=>{ pw="";data=null; document.getElementById("login-wrap").style.display="flex"; document.getElementById("app").style.display="none"; document.getElementById("inp-pw").value=""; });
+
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x===t));
+    ["f1","f2","f3"].forEach(s=>{ document.getElementById("sec-"+s).style.display=t.dataset.s===s?"block":"none"; });
+  });
+});
+
+async function cargar(){
+  document.getElementById("grupos1-list").innerHTML=`<div class="empty"><span class="sp" style="width:20px;height:20px;border-width:3px"></span></div>`;
+  const r=await api({action:"get_estado",password:pw});
+  if(!r.ok){msg(r.error,"err");return;}
+  data=r; renderAll();
+}
+
+function nomStr(x){ return typeof x==="object"?x.apellido+" "+x.nombre:x; }
+
+function renderAll(){
+  const fase=data.fase||1;
+  const fp=document.getElementById("fase-pill");
+  fp.textContent="FASE "+fase; fp.className="fase-pill f"+fase;
+  const g1=data.grupos1||[];
+  const total=g1.reduce((s,g)=>s+(g.integrantes||[]).length,0);
+  const votaron=g1.filter(g=>(g.votos||[]).length>0).length;
+  const conMatch=g1.filter(g=>(g.matches||[]).length>0).length;
+  document.getElementById("sg1").textContent=g1.length;
+  document.getElementById("se1").textContent=total;
+  document.getElementById("sv1").textContent=`${votaron}/${g1.length}`;
+  document.getElementById("sm1").textContent=conMatch;
+  renderF1(); renderF2(); renderF3();
+}
+
+function renderGrupoCard(g, grupos, fase){
+  const ints=(fase===1?g.integrantes:g.miembros)||[];
+  const sorted=[...ints].sort((a,b)=>nomStr(a).localeCompare(nomStr(b),"es",{sensitivity:"base"}));
+  const intTags=sorted.map(i=>`<span class="tag">${nomStr(i)}</span>`).join("");
+  const mHTML=(g.matches||[]).length>0
+    ?(g.matches||[]).map(id=>{const gr=grupos.find(x=>x.id===id);return gr?`<span class="tag match-tag">♥ Grupo ${gr.nombre}</span>`:""}).join(" ")
+    :`<span style="font-size:11px;color:var(--wm)">Sin matches</span>`;
+  const vHTML=(g.votos||[]).length>0
+    ?(g.votos||[]).map(id=>{const gr=grupos.find(x=>x.id===id);return gr?`<span class="tag">${gr.nombre}</span>`:""}).join(" ")
+    :`<span class="tag" style="color:var(--wm)">Sin votar</span>`;
+  const editBtn=fase===1?`<button class="btn btn-sm" onclick="abrirEdit('${g.id}')">Editar</button>`:"";
+  const delBtn=fase===1?`<button class="btn btn-sm btn-r" onclick="eliminar('${g.id}','${g.nombre}')">Eliminar</button>`:"";
+  return `<div class="gc">
+    <div class="gc-top">
+      <div class="gc-letra">${g.nombre}</div>
+      <div class="gc-meta">
+        <div class="gc-nom">Grupo ${g.nombre}</div>
+        <div class="gc-sub">${ints.length} integrantes${g.representante?" · "+g.representante:""}${g.mail?" · "+g.mail:""}</div>
+      </div>
+      <span class="code-b">${g.codigo}</span>
+      ${editBtn}${delBtn}
+    </div>
+    <div style="margin-bottom:6px"><div style="font-size:10px;color:var(--wm);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px">Integrantes</div><div class="tag-list">${intTags||'<span style="color:var(--wm);font-size:11px">Sin integrantes</span>'}</div></div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap">
+      <div><div style="font-size:10px;color:var(--wm);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px">Voto por</div><div style="display:flex;gap:4px;flex-wrap:wrap">${vHTML}</div></div>
+      <div><div style="font-size:10px;color:var(--wm);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px">Matches</div><div style="display:flex;gap:4px;flex-wrap:wrap">${mHTML}</div></div>
+    </div>
+  </div>`;
+}
+
+function renderF1(){
+  const g=data.grupos1||[];
+  document.getElementById("grupos1-list").innerHTML=g.length?g.map(x=>renderGrupoCard(x,g,1)).join(""):`<div class="empty">No hay grupos. Los estudiantes los crean desde la web.</div>`;
+}
+
+function renderResultado(res, el){
+  const conMatch=(res||[]).filter(r=>r.tipo!=="solo");
+  if(!conMatch.length){el.innerHTML=`<div class="empty">Sin matches todavia.</div>`;return;}
+  el.innerHTML=conMatch.map(r=>{
+    const badge=r.tipo==="supermatch"?`<span class="res-badge rb-super">Supermatch</span>`:r.tipo==="match"?`<span class="res-badge rb-match">Match</span>`:`<span class="res-badge rb-solo">Solo</span>`;
+    return `<div class="res-card">
+      <div class="res-nom">Grupo ${r.nombre} ${badge} <span style="font-size:12px;font-weight:400;color:var(--wm)">${r.cantTotal} personas</span></div>
+      <div style="font-size:12px;color:var(--wm)">${r.grupos.map(g=>"Grupo "+g).join(" + ")}</div>
+    </div>`;
+  }).join("");
+}
+
+function renderF2(){
+  renderResultado(data.resultado1, document.getElementById("resultado1-list"));
+  const g=data.grupos2||[];
+  document.getElementById("grupos2-list").innerHTML=g.length?g.map(x=>renderGrupoCard(x,g,2)).join(""):`<div class="empty">Activa la Fase 2 para ver los grupos combinados.</div>`;
+}
+
+function renderF3(){
+  renderResultado(data.resultado2, document.getElementById("resultado2-list"));
+  const g=data.grupos3||[];
+  document.getElementById("grupos3-list").innerHTML=g.length?g.map(x=>renderGrupoCard(x,g,3)).join(""):`<div class="empty">Activa la Fase 3 para ver los grupos finales.</div>`;
+}
+
+// EDITAR
+function abrirEdit(id){
+  const g=(data.grupos1||[]).find(x=>x.id===id); if(!g) return;
+  document.getElementById("edit-id").value=id;
+  document.getElementById("edit-ints").value=(g.integrantes||[]).map(nomStr).join("\n");
+  document.getElementById("edit-msg").innerHTML="";
+  document.getElementById("modal-edit").style.display="flex";
+}
+document.getElementById("btn-cancel-edit").addEventListener("click",()=>{document.getElementById("modal-edit").style.display="none";});
+document.getElementById("btn-save-edit").addEventListener("click",async()=>{
+  const id=document.getElementById("edit-id").value;
+  const ints=document.getElementById("edit-ints").value.split("\n").map(l=>l.trim()).filter(l=>l.length>0);
+  const btn=document.getElementById("btn-save-edit"); btn.innerHTML=`<span class="sp"></span>`;btn.disabled=true;
+  const r=await api({action:"editar_integrantes",password:pw,id,integrantes:ints});
+  btn.innerHTML="Guardar";btn.disabled=false;
+  if(r.ok){document.getElementById("modal-edit").style.display="none";msg("Integrantes actualizados");cargar();}
+  else document.getElementById("edit-msg").innerHTML=`<div class="alert alert-err">${r.error}</div>`;
+});
+
+async function eliminar(id,nom){
+  if(!confirm(`Eliminar Grupo "${nom}"?`)) return;
+  const r=await api({action:"eliminar_grupo",password:pw,id});
+  if(r.ok){msg(`Grupo "${nom}" eliminado`);cargar();}else msg(r.error,"err");
+}
+
+// ACTIVAR FASES
+document.getElementById("btn-activar-f2").addEventListener("click",async()=>{
+  if(!confirm("Activar Fase 2? Se generan los grupos combinados a partir de los matches de Fase 1.")) return;
+  const btn=document.getElementById("btn-activar-f2"); btn.innerHTML=`<span class="sp"></span>`;btn.disabled=true;
+  const r=await api({action:"activar_fase2",password:pw});
+  btn.innerHTML="Activar Fase 2";btn.disabled=false;
+  if(r.ok){msg("Fase 2 activada");cargar();document.querySelector('[data-s="f2"]').click();}else msg(r.error,"err");
+});
+
+document.getElementById("btn-activar-f3").addEventListener("click",async()=>{
+  if(!confirm("Activar Fase 3? Se generan los grupos para el match final con supermatch.")) return;
+  const btn=document.getElementById("btn-activar-f3"); btn.innerHTML=`<span class="sp"></span>`;btn.disabled=true;
+  const r=await api({action:"activar_fase3",password:pw});
+  btn.innerHTML="Activar Fase 3";btn.disabled=false;
+  if(r.ok){msg("Fase 3 activada");cargar();document.querySelector('[data-s="f3"]').click();}else msg(r.error,"err");
+});
+
+// RESET VOTOS
+document.getElementById("btn-reset-v1").addEventListener("click",async()=>{
+  if(!confirm("Borrar todos los votos de Fase 1?")) return;
+  const r=await api({action:"reset_votos",password:pw,fase:1});
+  if(r.ok){msg("Votos F1 borrados");cargar();}else msg(r.error,"err");
+});
+document.getElementById("btn-reset-v2").addEventListener("click",async()=>{
+  if(!confirm("Borrar todos los votos de Fase 2?")) return;
+  const r=await api({action:"reset_votos",password:pw,fase:2});
+  if(r.ok){msg("Votos F2 borrados");cargar();}else msg(r.error,"err");
+});
+document.getElementById("btn-reset-v3").addEventListener("click",async()=>{
+  if(!confirm("Borrar todos los votos de Fase 3?")) return;
+  const r=await api({action:"reset_votos",password:pw,fase:3});
+  if(r.ok){msg("Votos F3 borrados");cargar();}else msg(r.error,"err");
+});
+
+// LIMPIAR TODO
+document.getElementById("btn-limpiar").addEventListener("click",async()=>{
+  if(!confirm("Limpiar TODO? Esto borra todos los grupos, votos y vuelve a Fase 1. No se puede deshacer.")) return;
+  const r=await api({action:"limpiar_todo",password:pw});
+  if(r.ok){msg("Todo limpiado. Volviste a Fase 1.");cargar();}else msg(r.error,"err");
+});
+
+document.getElementById("btn-refresh").addEventListener("click",cargar);
+</script>
+</body>
+</html>
