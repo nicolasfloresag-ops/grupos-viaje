@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Grupos Viaje — T&T Asia</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap');
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#080808;--s1:#111;--s2:#181818;--s3:#222;
+  --w:#fff;--ws:rgba(255,255,255,.65);--wm:rgba(255,255,255,.3);--wd:rgba(255,255,255,.07);
+  --b:rgba(255,255,255,.1);--bs:rgba(255,255,255,.2);
+  --y:#E8FF00;--p:#C084FC;--g:#34D399;--o:#FB923C;
+  --fd:"Bebas Neue",sans-serif;--fb:"Inter",sans-serif;
+}
+body{font-family:var(--fb);background:var(--bg);color:var(--w);min-height:100vh}
+.header{background:var(--s1);border-bottom:1px solid var(--b);padding:0 20px;display:flex;align-items:center;gap:12px;height:52px;position:sticky;top:0;z-index:50}
+.logo{font-family:var(--fd);font-size:22px;letter-spacing:2px}
+.logo b{color:var(--y)}
+.htag{font-size:9px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--wm);padding:2px 7px;border:1px solid var(--b);border-radius:4px}
+.hfase{margin-left:auto;font-size:9px;color:var(--wm);letter-spacing:.14em;text-transform:uppercase}
+.hrefresh{background:none;border:none;color:var(--wm);cursor:pointer;font-size:16px;padding:4px;line-height:1;margin-left:6px}
+.hrefresh:hover{color:var(--w)}
+.hrefresh.spin{animation:spin .7s linear infinite}
+.strip{background:var(--bg);border-bottom:1px solid var(--b);overflow:hidden;height:22px;display:flex;align-items:center}
+.strip-inner{display:flex;gap:28px;animation:sc 30s linear infinite;white-space:nowrap}
+@keyframes sc{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.pi{font-size:8px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.13)}
+.main{max-width:680px;margin:0 auto;padding:28px 16px}
+.intro{background:var(--s1);border:1px solid var(--b);border-radius:16px;padding:20px 22px;margin-bottom:24px}
+.intro h2{font-family:var(--fd);font-size:22px;letter-spacing:.06em;color:var(--y);margin-bottom:10px}
+.intro p{font-size:13px;color:var(--ws);line-height:1.8;margin-bottom:8px}
+.intro p:last-child{margin-bottom:0}
+.intro strong{color:var(--w)}
+.steps{list-style:none;padding:0;margin-top:10px}
+.steps li{font-size:12px;color:var(--wm);padding:4px 0 4px 18px;position:relative;line-height:1.6}
+.steps li::before{content:attr(data-n);position:absolute;left:0;color:var(--y);font-weight:700;font-size:11px}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px}
+.stat{background:var(--s1);border:1px solid var(--b);border-radius:12px;padding:14px}
+.sn{font-family:var(--fd);font-size:32px;color:var(--y);line-height:1}
+.sl{font-size:9px;color:var(--wm);margin-top:3px;text-transform:uppercase;letter-spacing:.12em;font-weight:600}
+.stitle{font-size:9px;font-weight:700;color:var(--wm);text-transform:uppercase;letter-spacing:.16em;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.stitle::after{content:"";flex:1;height:1px;background:var(--b)}
+/* MATCH CARDS */
+.mc{border-radius:14px;overflow:hidden;margin-bottom:6px}
+.mc.super{border:1px solid rgba(232,255,0,.3);background:rgba(232,255,0,.03)}
+.mc.match{border:1px solid rgba(192,132,252,.25);background:rgba(192,132,252,.03)}
+.mc-head{padding:12px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.mc-nom{font-family:var(--fd);font-size:26px;letter-spacing:.05em}
+.mc.super .mc-nom{color:var(--y)}.mc.match .mc-nom{color:var(--p)}
+.mc-badge{font-size:8px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:2px 8px;border-radius:3px}
+.bs{background:rgba(232,255,0,.12);color:var(--y);border:1px solid rgba(232,255,0,.3)}
+.bm{background:rgba(192,132,252,.12);color:var(--p);border:1px solid rgba(192,132,252,.3)}
+.mc-cnt{margin-left:auto;font-size:11px;color:var(--wm)}
+.mc-arr{font-size:9px;color:var(--wm);margin-left:6px;display:inline-block;transition:transform .2s}
+.mc-arr.o{transform:rotate(180deg)}
+.mc-body{background:rgba(0,0,0,.25);padding:10px 16px;border-top:1px solid var(--b);display:none}
+.mc-body.o{display:block}
+.mc-sub{font-size:10px;color:var(--wm);letter-spacing:.05em;text-transform:uppercase;margin-bottom:4px}
+/* GRUPO CARDS */
+.gc{background:var(--s1);border:1px solid var(--b);border-radius:14px;overflow:hidden;margin-bottom:6px}
+.gc.hm{border-color:rgba(52,211,153,.3)}
+.gc-head{padding:14px 18px;display:flex;align-items:center;gap:12px}
+.gc-letra{font-family:var(--fd);font-size:34px;min-width:40px;line-height:1}
+.gc-meta{flex:1}
+.gc-nom{font-family:var(--fd);font-size:18px;letter-spacing:.04em}
+.gc-cnt{font-size:11px;color:var(--wm);margin-top:2px}
+.gc-chips{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.gchip{font-family:var(--fd);font-size:11px;background:rgba(52,211,153,.1);color:var(--g);border:1px solid rgba(52,211,153,.25);border-radius:4px;padding:2px 8px}
+.vpill{font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:2px 6px;border-radius:3px;background:rgba(52,211,153,.1);color:var(--g);border:1px solid rgba(52,211,153,.2)}
+.toggle{display:flex;align-items:center;justify-content:space-between;padding:8px 16px;border-top:1px solid var(--b);cursor:pointer;user-select:none}
+.toggle:hover{background:var(--wd)}
+.tl{font-size:10px;color:var(--wm);letter-spacing:.09em;text-transform:uppercase;font-weight:600}
+.ta{font-size:9px;color:var(--wm);display:inline-block;transition:transform .2s}
+.ta.o{transform:rotate(180deg)}
+.gc-body{background:rgba(0,0,0,.18);padding:10px 16px 14px;border-top:1px solid var(--b);display:none}
+.gc-body.o{display:block}
+.igrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:2px}
+.ii{font-size:12px;color:var(--ws);padding:2px 0}
+.gc-vrow{padding:9px 16px;border-top:1px solid var(--b);display:flex;align-items:center;justify-content:flex-end;background:rgba(0,0,0,.1)}
+.vbtn-sm{padding:6px 16px;background:var(--y);color:var(--bg);border:none;border-radius:7px;font-size:10px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;font-family:var(--fb)}
+.vbtn-sm:hover{background:#d4e800}
+/* SECCIONES */
+.sbox{background:var(--s1);border:1px solid var(--b);border-radius:16px;padding:20px 22px;margin-bottom:20px}
+.sbox-title{font-family:var(--fd);font-size:22px;letter-spacing:.06em;color:var(--y);margin-bottom:6px}
+.sbox-desc{font-size:12px;color:var(--wm);line-height:1.7;margin-bottom:16px}
+.sbox-desc strong{color:var(--w)}
+label{font-size:10px;color:var(--wm);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.09em;font-weight:700}
+.ced-area{width:100%;padding:11px 14px;background:var(--s2);border:1px solid var(--b);border-radius:10px;font-size:13px;color:var(--w);font-family:var(--fb);resize:vertical;min-height:80px;line-height:1.6;transition:border-color .15s;margin-bottom:8px}
+.ced-area:focus{outline:none;border-color:var(--y)}
+.ced-area::placeholder{color:var(--wm)}
+.finput{width:100%;padding:10px 14px;background:var(--s2);border:1px solid var(--b);border-radius:10px;font-size:14px;color:var(--w);font-family:var(--fb);transition:border-color .15s;margin-bottom:12px}
+.finput:focus{outline:none;border-color:var(--y)}
+.ver-box{background:var(--s2);border:1px solid var(--b);border-radius:12px;padding:12px 14px;margin-bottom:14px}
+.ver-title{font-size:10px;font-weight:700;color:var(--wm);text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+.ver-item{display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--b)}
+.ver-item:last-child{border-bottom:none}
+.ver-nom{font-size:13px;color:var(--ws);flex:1}
+.vbadge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;letter-spacing:.06em;text-transform:uppercase}
+.vb-enc{background:rgba(232,255,0,.12);color:var(--y);border:1px solid rgba(232,255,0,.3)}
+.vb-ok{background:rgba(52,211,153,.1);color:var(--g)}
+.vb-err{background:rgba(251,146,60,.1);color:var(--o)}
+.ver-del{background:none;border:none;color:var(--wm);cursor:pointer;font-size:14px;padding:0 2px;line-height:1}
+.ver-del:hover{color:var(--w)}
+.pub-btn{width:100%;padding:12px;background:var(--y);color:var(--bg);border:none;border-radius:10px;font-family:var(--fd);font-size:18px;letter-spacing:.08em;cursor:pointer;transition:all .15s;margin-top:4px}
+.pub-btn:hover{background:#d4e800}
+.pub-btn:disabled{opacity:.4;cursor:not-allowed}
+/* VOTAR */
+.sopt{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--b);cursor:pointer;user-select:none}
+.sopt:last-child{border-bottom:none}
+.sopt.dis{opacity:.3;cursor:not-allowed;pointer-events:none}
+.sck{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--b);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:10px;font-weight:800;transition:all .2s}
+.sck.on{background:var(--y);border-color:var(--y);color:var(--bg)}
+.snom{font-family:var(--fd);font-size:17px;letter-spacing:.04em}
+.scnt{font-size:11px;color:var(--wm)}
+.snote{font-size:10px;color:var(--o);margin-left:auto;font-weight:600}
+.mbanner{background:linear-gradient(135deg,rgba(192,132,252,.1),rgba(232,255,0,.06));border:1px solid rgba(192,132,252,.3);border-radius:12px;padding:16px;text-align:center;margin-bottom:14px}
+.mbtit{font-family:var(--fd);font-size:34px;letter-spacing:.08em;background:linear-gradient(135deg,var(--y),var(--p));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.mbsub{font-size:9px;color:var(--wm);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.mbchips{display:flex;justify-content:center;gap:5px;flex-wrap:wrap}
+.mbchip{font-family:var(--fd);font-size:12px;background:rgba(192,132,252,.12);color:var(--p);border:1px solid rgba(192,132,252,.3);border-radius:4px;padding:2px 9px}
+.prog{background:var(--s2);border-radius:8px;padding:10px 12px;margin:8px 0}
+.prog-bar{height:3px;background:var(--s3);border-radius:2px;overflow:hidden;margin:4px 0 3px}
+.prog-fill{height:100%;background:var(--y);border-radius:2px;transition:width .3s}
+/* MODAL */
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.9);display:flex;align-items:center;justify-content:center;z-index:100;backdrop-filter:blur(6px);padding:16px}
+.md{background:var(--s1);border:1px solid var(--bs);border-radius:20px;padding:22px;width:100%;max-width:380px}
+.md h3{font-family:var(--fd);font-size:24px;letter-spacing:.06em;color:var(--y);margin-bottom:6px}
+.md p{font-size:12px;color:var(--wm);margin-bottom:10px;line-height:1.7}
+.md p strong{color:var(--w)}
+.codigo-box{background:linear-gradient(135deg,rgba(232,255,0,.08),rgba(232,255,0,.03));border:1px solid rgba(232,255,0,.3);border-radius:14px;padding:20px;text-align:center;margin-bottom:14px}
+.codigo-label{font-size:10px;color:var(--wm);letter-spacing:.12em;text-transform:uppercase;margin-bottom:6px}
+.codigo-val{font-family:var(--fd);font-size:44px;color:var(--y);letter-spacing:.15em}
+.codigo-sub{font-size:11px;color:var(--ws);margin-top:6px;line-height:1.6}
+.mbtns{display:flex;gap:8px;margin-top:8px}
+.mbtn{flex:1;padding:10px;border:1px solid var(--b);border-radius:10px;font-size:10px;font-weight:700;cursor:pointer;background:transparent;color:var(--w);font-family:var(--fb);letter-spacing:.09em;text-transform:uppercase;transition:all .15s;text-align:center}
+.mbtn:hover{background:var(--wd)}
+.mbtn.y{background:var(--y);color:var(--bg);border-color:var(--y)}
+.mbtn.y:hover{background:#d4e800}
+.err{background:rgba(251,146,60,.1);color:var(--o);border:1px solid rgba(251,146,60,.3);border-radius:8px;padding:8px 12px;font-size:12px;margin-top:8px}
+.ok-msg{background:rgba(52,211,153,.1);color:var(--g);border:1px solid rgba(52,211,153,.3);border-radius:8px;padding:8px 12px;font-size:12px;margin-top:8px}
+.sp{display:inline-block;width:12px;height:12px;border:1.5px solid rgba(255,255,255,.1);border-top-color:var(--y);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+.stale{background:rgba(232,255,0,.05);border-bottom:1px solid rgba(232,255,0,.12);padding:4px 20px;font-size:10px;color:rgba(232,255,0,.4);text-align:center;letter-spacing:.06em}
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">T<b>&</b>T</div>
+  <div class="htag">Viaje Asia</div>
+  <div class="hfase" id="hfase">Fase 1</div>
+  <button class="hrefresh" id="hrefresh" onclick="refrescar()" title="Actualizar">&#8635;</button>
+</div>
+<div class="strip">
+  <div class="strip-inner">
+    <span class="pi">INDIA</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">NEPAL</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">JAPON</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">TAILANDIA</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">CAMBOYA</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">VIETNAM</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">FILIPINAS</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">INDONESIA</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">INDIA</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">NEPAL</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">JAPON</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">TAILANDIA</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">CAMBOYA</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">VIETNAM</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">FILIPINAS</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+    <span class="pi">INDONESIA</span><span style="color:rgba(255,255,255,.07);margin:0 4px">&#8212;</span>
+  </div>
+</div>
+<div id="stale" style="display:none" class="stale">Actualizando...</div>
+<div class="main" id="main"></div>
+<div class="ov" id="modal" style="display:none" onclick="if(event.target===this)cerrar()">
+  <div class="md"><div id="mdbody"></div></div>
+</div>
+<script>
+const SURL = "https://script.google.com/macros/s/AKfycbyeCaT5rTP12I9KO1B7bpUYKYnM_ik_FnbCl7ktGdN9h_4_5deX38plS2Z2AkSKbYCz/exec";
+const COLORS = ["#E8FF00","#C084FC","#FB923C","#34D399","#60A5FA","#F472B6","#A78BFA","#FBBF24"];
+const CACHE = "tt_v28";
+let fase=1, grupos=[], resultado=[], grupos2=[];
+let cargando=false;
+let _miGrupo=null, _codigo="", _sel=[], _matches=[];
+let _vers=[], _mail="", _cedRaw="";
+
+async function api(body, timeout=18000) {
+  const flat={};
+  Object.keys(body).forEach(k=>{ flat[k]=typeof body[k]==="object"?JSON.stringify(body[k]):body[k]; });
+  const ctrl=new AbortController();
+  const tid=setTimeout(()=>ctrl.abort(),timeout);
+  try {
+    const res=await fetch(SURL+"?"+new URLSearchParams(flat),{method:"GET",redirect:"follow",signal:ctrl.signal});
+    clearTimeout(tid);
+    const txt=await res.text();
+    try{return JSON.parse(txt);}catch(e){return{ok:false,error:"Respuesta invalida"};}
+  } catch(e) {
+    clearTimeout(tid);
+    return{ok:false,error:e.name==="AbortError"?"Tiempo de espera agotado":"Error de conexion"};
+  }
+}
+
+function leerCache(){try{return JSON.parse(localStorage.getItem(CACHE)||"null");}catch(e){return null;}}
+function guardarCache(d){try{localStorage.setItem(CACHE,JSON.stringify({...d,ts:Date.now()}));}catch(e){}}
+
+async function cargar(forzar=false) {
+  const cache=leerCache();
+  if(cache&&!forzar){
+    fase=cache.fase||1;grupos=cache.grupos||[];resultado=cache.resultado||[];grupos2=cache.grupos2||[];
+    document.getElementById("hfase").textContent="Fase "+fase;
+    render();refrescarFondo();return;
+  }
+  render();
+  await refrescarFondo();
+}
+
+async function refrescarFondo() {
+  if(cargando) return;
+  cargando=true;
+  document.getElementById("stale").style.display="block";
+  document.getElementById("hrefresh").classList.add("spin");
+  try {
+    const fd=await api({action:"get_fase"});
+    if(fd.ok){
+      const f=fd.fase||1;
+      if(f===1){
+        const d=await api({action:"get_grupos_publico"});
+        if(d.ok){fase=f;grupos=d.grupos||[];resultado=d.resultado||[];grupos2=[];}
+      } else {
+        const [d1,d2]=await Promise.all([api({action:"get_grupos_publico"}),api({action:"get_grupos2_publico"})]);
+        fase=f;
+        if(d1.ok){grupos=d1.grupos||[];resultado=d1.resultado||[];}
+        if(d2.ok) grupos2=d2.grupos||[];
+      }
+      guardarCache({fase,grupos,resultado,grupos2});
+      document.getElementById("hfase").textContent="Fase "+fase;
+      render();
+    }
+  } catch(e){}
+  cargando=false;
+  document.getElementById("hrefresh").classList.remove("spin");
+  document.getElementById("stale").style.display="none";
+}
+
+function refrescar(){localStorage.removeItem(CACHE);cargar(true);}
+
+function render() {
+  const lista=fase===1?grupos:grupos2;
+  const total=lista.reduce((s,g)=>s+(g.cantIntegrantes||g.cantMiembros||0),0);
+  const votaron=lista.filter(g=>g.yaVoto).length;
+
+  let html=`
+    <div class="intro">
+      <h2>VIAJE ASIA 2026</h2>
+      <p>Sistema de armado y matching de grupos para el viaje de la <strong>Facultad de Medicina</strong>. Todos los datos son privados — solo se muestra el nombre del grupo y la cantidad de integrantes.</p>
+      <ul class="steps">
+        <li data-n="1.">El encargado pega las cedulas de todos los integrantes. La <strong>primera cedula es la del encargado</strong>, quien recibe un mail con el codigo secreto.</li>
+        <li data-n="2.">El sistema asigna automaticamente una <strong>letra (A, B, C...)</strong> en orden de creacion.</li>
+        <li data-n="3.">Con el codigo secreto, el encargado elige hasta <strong>2 grupos</strong> para hacer matching. Solo hay match si el otro grupo tambien los elige.</li>
+        <li data-n="4.">Bloques de hasta <strong>75 personas</strong> en la primera etapa.</li>
+      </ul>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="sn">${lista.length}</div><div class="sl">Grupos</div></div>
+      <div class="stat"><div class="sn">${total}</div><div class="sl">Participantes</div></div>
+      <div class="stat"><div class="sn">${votaron}<span style="font-size:18px;opacity:.3">/${lista.length}</span></div><div class="sl">Votaron</div></div>
+    </div>`;
+
+  // MATCHES
+  const conMatch=resultado.filter(r=>r.tipo!=="solo");
+  if(conMatch.length>0){
+    html+=`<div class="stitle">Grupos con match</div>`;
+    conMatch.forEach((r,i)=>{
+      const cls=r.tipo==="supermatch"?"super":"match";
+      const badge=r.tipo==="supermatch"?`<span class="mc-badge bs">Supermatch</span>`:`<span class="mc-badge bm">Match</span>`;
+      html+=`<div class="mc ${cls}">
+        <div class="mc-head" onclick="tog('mb${i}','ma${i}')">
+          <div class="mc-nom">Grupo ${r.nombre}</div>${badge}
+          <div class="mc-cnt">${r.cantTotal} personas</div>
+          <span class="mc-arr" id="ma${i}">&#9660;</span>
+        </div>
+        <div class="mc-body" id="mb${i}">
+          <div class="mc-sub">Formado por: ${r.grupos.map(g=>"Grupo "+g).join(" + ")}</div>
+        </div>
+      </div>`;
+    });
+    html+=`<div style="margin-bottom:20px"></div>`;
+  }
+
+  // GRUPOS
+  html+=`<div class="stitle">${fase===2?"Grupos fase 2":"Grupos publicados"}</div>`;
+  if(!lista.length){
+    html+=`<div style="text-align:center;padding:28px;color:var(--wm);font-size:13px;border:1px solid var(--b);border-radius:14px;margin-bottom:20px">Todavia no hay grupos. Se el primero en armar el tuyo.</div>`;
+  } else {
+    lista.forEach((g,i)=>{
+      const cant=g.cantIntegrantes||g.cantMiembros||0;
+      const ints=g.integrantes||g.miembros||[];
+      const hasMatch=(g.matches||[]).length>0;
+      const chips=(g.matches||[]).map(m=>`<span class="gchip">Grupo ${m.nombre}</span>`).join("");
+      const color=COLORS[i%COLORS.length];
+      const intHTML=ints.map(x=>`<div class="ii">${x}</div>`).join("")||`<div class="ii" style="color:var(--wm)">Sin integrantes</div>`;
+      const gid="g"+i;
+      html+=`<div class="gc ${hasMatch?"hm":""}">
+        <div class="gc-head">
+          <div class="gc-letra" style="color:${color}">${g.nombre}</div>
+          <div class="gc-meta">
+            <div class="gc-nom">Grupo ${g.nombre}</div>
+            <div class="gc-cnt">${cant} personas</div>
+          </div>
+          ${hasMatch?`<div class="gc-chips">${chips}</div>`:""}
+          ${g.yaVoto?`<span class="vpill">Voto</span>`:""}
+        </div>
+        <div class="toggle" onclick="tog('gb${gid}','ga${gid}')">
+          <span class="tl">Ver integrantes (${ints.length})</span>
+          <span class="ta" id="ga${gid}">&#9660;</span>
+        </div>
+        <div class="gc-body" id="gb${gid}"><div class="igrid">${intHTML}</div></div>
+        <div class="gc-vrow"><button class="vbtn-sm" onclick="scrollAl('sec-votar')">Votar</button></div>
+      </div>`;
+    });
+  }
+  html+=`<div style="margin-bottom:24px"></div>`;
+  html+=renderCrear();
+  html+=renderVotar();
+  document.getElementById("main").innerHTML=html;
+  attachEvents();
+}
+
+function renderCrear() {
+  const okCount=_vers.filter(v=>v.ok).length;
+  let html=`<div class="sbox" id="sec-crear">
+    <div class="sbox-title">ARMAR GRUPO</div>
+    <div class="sbox-desc">Pega las cedulas de todos los integrantes separadas por coma, espacio o enter. La <strong>primera cedula es la del encargado</strong> del grupo. El sistema asigna automaticamente la letra. Maximo <strong>25 personas</strong>.</div>`;
+  if(_vers.length>0){
+    html+=`<div class="ver-box">
+      <div class="ver-title">Integrantes verificados (${okCount}/25)</div>
+      ${_vers.map((v,i)=>`<div class="ver-item">
+        <span class="ver-nom">${v.ok?(v.apellido+", "+v.nombre):"Cedula: "+v.cedula}</span>
+        <span style="display:flex;align-items:center;gap:5px">
+          ${i===0&&v.ok?`<span class="vbadge vb-enc">Encargado</span>`:""}
+          <span class="vbadge ${v.ok?"vb-ok":"vb-err"}">${v.ok?"OK":v.error||"Error"}</span>
+          <button class="ver-del" onclick="quitarVer(${i})">&#215;</button>
+        </span>
+      </div>`).join("")}
+    </div>`;
+  }
+  if(okCount<25){
+    html+=`<label>Cedulas ${_vers.length>0?"(agregar mas)":"(todas juntas)"}</label>
+    <textarea class="ced-area" id="inp-ceds" placeholder="12345678, 23456789&#10;o una por linea">${_cedRaw}</textarea>
+    <div style="display:flex;justify-content:flex-end;margin-bottom:14px">
+      <button id="btn-ver" onclick="verificarCedulas()" style="padding:9px 20px;background:var(--y);color:var(--bg);border:none;border-radius:8px;font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;cursor:pointer;font-family:var(--fb)">Verificar</button>
+    </div>`;
+  }
+  if(okCount>=1){
+    html+=`<label>Mail del encargado</label>
+    <input type="email" class="finput" id="inp-mail" placeholder="nombre@mail.com" value="${_mail}" />
+    <button class="pub-btn" id="pub-btn" onclick="publicarGrupo()">Publicar grupo (${okCount} personas)</button>`;
+  }
+  html+=`<div id="crear-msg"></div></div>`;
+  return html;
+}
+
+function renderVotar() {
+  const lista=fase===1?grupos:grupos2;
+  let html=`<div class="sbox" id="sec-votar">
+    <div class="sbox-title">VOTAR</div>
+    <div class="sbox-desc">Ingresa el codigo secreto de tu grupo para elegir con quienes quieren viajar. Podes elegir hasta <strong>2 grupos</strong>. El codigo te llego por mail cuando publicaste el grupo.</div>`;
+  if(!_miGrupo){
+    html+=`<label>Codigo secreto</label>
+    <div style="display:flex;gap:8px">
+      <input type="text" id="vcod" placeholder="8 caracteres" autocomplete="off" maxlength="8"
+        style="flex:1;padding:11px 14px;background:var(--s2);border:1px solid var(--b);border-radius:10px;font-size:15px;color:var(--w);font-family:var(--fb);letter-spacing:.15em;text-transform:uppercase;transition:border-color .15s"/>
+      <button id="vbtn" onclick="verificarVoto()"
+        style="padding:11px 18px;background:var(--y);color:var(--bg);border:none;border-radius:10px;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:var(--fb);white-space:nowrap">Acceder</button>
+    </div>
+    <div id="verr" style="display:none" class="err"></div>`;
+  } else {
+    const otros=lista.filter(g=>g.id!==_miGrupo.id);
+    const miCant=_miGrupo.cantIntegrantes||_miGrupo.cantMiembros||0;
+    const totalConmigo=miCant+_sel.reduce((s,id)=>{const x=lista.find(g=>g.id===id);return s+(x?(x.cantIntegrantes||x.cantMiembros||0):0);},0);
+    const pct=Math.min(100,Math.round(totalConmigo/(fase===1?75:150)*100));
+    if(_matches.length>0){
+      html+=`<div class="mbanner">
+        <div class="mbtit">ES UN MATCH</div>
+        <div class="mbsub">Match confirmado con</div>
+        <div class="mbchips">${_matches.map(m=>`<span class="mbchip">Grupo ${m.nombre}</span>`).join("")}</div>
+      </div>`;
+    }
+    html+=`<div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+      <div style="font-family:var(--fd);font-size:20px;color:var(--y)">Grupo ${_miGrupo.nombre}</div>
+      <div style="font-size:11px;color:var(--wm)">${miCant} integrantes</div>
+      <button onclick="_miGrupo=null;_sel=[];_matches=[];render()"
+        style="margin-left:auto;padding:5px 10px;background:transparent;border:1px solid var(--b);border-radius:6px;font-size:10px;font-weight:700;color:var(--wm);cursor:pointer;font-family:var(--fb);letter-spacing:.06em;text-transform:uppercase">Cambiar</button>
+    </div>`;
+    if(!otros.length){
+      html+=`<div style="font-size:13px;color:var(--wm);padding:12px 0">Todavia no hay otros grupos para elegir.</div>`;
+    } else {
+      html+=`<div id="vopts">`;
+      otros.forEach(g=>{
+        const cant=g.cantIntegrantes||g.cantMiembros||0;
+        const on=_sel.includes(g.id);
+        const dis=(fase===1&&!on&&_sel.length>=2)||(fase===2&&!on&&(totalConmigo+cant)>150);
+        const nota=fase===2&&!on&&(totalConmigo+cant)>150?"supera 150":fase===1&&!on&&_sel.length>=2?"max 2":"";
+        html+=`<div class="sopt ${dis?"dis":""}" data-gid="${g.id}">
+          <div class="sck ${on?"on":""}">${on?"&#10003;":""}</div>
+          <div style="flex:1"><div class="snom">Grupo ${g.nombre}</div><div class="scnt">${cant} personas</div></div>
+          ${nota?`<span class="snote">${nota}</span>`:""}
+        </div>`;
+      });
+      html+=`</div>`;
+    }
+    html+=`<div class="prog">
+      <div style="display:flex;justify-content:space-between">
+        <span style="font-size:11px;color:var(--wm)">Total si viajan juntos</span>
+        <strong style="font-size:13px">${totalConmigo}</strong>
+      </div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div id="vmsg" style="margin-top:8px"></div>
+    <div style="margin-top:14px">
+      <button id="gvbtn" onclick="guardarVoto()"
+        style="width:100%;padding:12px;background:var(--y);color:var(--bg);border:none;border-radius:10px;font-family:var(--fd);font-size:18px;letter-spacing:.08em;cursor:pointer">
+        Guardar elecciones
+      </button>
+    </div>`;
+  }
+  html+=`</div>`;
+  return html;
+}
+
+function attachEvents(){
+  const vc=document.getElementById("vcod");
+  if(vc){vc.addEventListener("keydown",e=>{if(e.key==="Enter")verificarVoto();});vc.addEventListener("input",e=>{e.target.value=e.target.value.toUpperCase();});}
+  const tc=document.getElementById("inp-ceds");
+  if(tc) tc.addEventListener("input",e=>{_cedRaw=e.target.value;});
+  const mi=document.getElementById("inp-mail");
+  if(mi) mi.addEventListener("input",e=>{_mail=e.target.value;});
+  document.querySelectorAll("#vopts .sopt:not(.dis)").forEach(el=>{
+    el.onclick=()=>{
+      const gid=el.dataset.gid;
+      const idx=_sel.indexOf(gid);
+      if(idx===-1){if(fase===1&&_sel.length>=2)return;_sel.push(gid);}
+      else _sel.splice(idx,1);
+      render();scrollAl("sec-votar");
+    };
+  });
+}
+
+async function verificarCedulas(){
+  const raw=(document.getElementById("inp-ceds")?.value||"").trim();
+  if(!raw) return;
+  const ceds=[...new Set(raw.split(/[\s,;]+/).map(c=>c.replace(/[.\-]/g,"").trim()).filter(c=>c.length>4))];
+  if(!ceds.length){mostrarCrearMsg("No se encontraron cedulas validas","err");return;}
+  const yaOk=_vers.filter(v=>v.ok).length;
+  if(yaOk+ceds.length>25){mostrarCrearMsg("Superarias el limite de 25 personas","err");return;}
+  const btn=document.getElementById("btn-ver");
+  if(btn){btn.innerHTML=`<span class="sp"></span>`;btn.disabled=true;}
+  // verificar todas de una sola llamada
+  const d=await api({action:"verificar_cedulas_bulk",cedulas:ceds});
+  const nuevos=[];
+  if(d.ok&&d.resultados){
+    d.resultados.forEach(r=>{
+      if(_vers.find(v=>String(v.cedula)===String(r.cedula))){
+        nuevos.push({cedula:r.cedula,ok:false,error:"Ya agregada"});
+      } else if(r.ok&&r.persona){
+        nuevos.push({cedula:r.cedula,ok:true,...r.persona});
+      } else {
+        nuevos.push({cedula:r.cedula,ok:false,error:r.error||"No encontrada"});
+      }
+    });
+  } else {
+    mostrarCrearMsg(d.error||"Error al verificar","err");
+    if(btn){btn.innerHTML="Verificar";btn.disabled=false;}
+    return;
+  }
+  _vers=[..._vers,...nuevos];
+  _cedRaw="";
+  if(btn){btn.innerHTML="Verificar";btn.disabled=false;}
+  render();scrollAl("sec-crear");
+}
+
+function quitarVer(idx){_vers.splice(idx,1);render();}
+function mostrarCrearMsg(m,t){const el=document.getElementById("crear-msg");if(el)el.innerHTML=`<div class="${t==="err"?"err":"ok-msg"}">${m}</div>`;}
+
+async function publicarGrupo(){
+  const soloOk=_vers.filter(v=>v.ok);
+  if(!soloOk.length){mostrarCrearMsg("No hay integrantes validos","err");return;}
+  if(!_mail||!_mail.includes("@")){mostrarCrearMsg("Ingresa un mail valido del encargado","err");return;}
+  const btn=document.getElementById("pub-btn");
+  if(btn){btn.innerHTML=`<span class="sp"></span>`;btn.disabled=true;}
+  const d=await api({action:"crear_grupo_publico",integrantes:soloOk,encargadoCedula:soloOk[0].cedula,mailEncargado:_mail});
+  if(btn){btn.innerHTML=`Publicar grupo (${soloOk.length} personas)`;btn.disabled=false;}
+  if(!d.ok){mostrarCrearMsg(d.error,"err");return;}
+  document.getElementById("mdbody").innerHTML=`
+    <div class="codigo-box">
+      <div class="codigo-label">Grupo asignado</div>
+      <div class="codigo-val">${d.nombreGrupo}</div>
+      <div class="codigo-sub">Codigo secreto: <strong style="color:var(--y);letter-spacing:.12em">${d.codigo}</strong><br>${d.cantIntegrantes} personas · Encargado: ${d.encargado}</div>
+    </div>
+    <p>Se envio un mail a <strong>${_mail}</strong> con el codigo y la lista del grupo.</p>
+    <div class="mbtns"><button class="mbtn y" onclick="cerrar();localStorage.removeItem(CACHE);_vers=[];_mail='';_cedRaw='';cargar(true)">Listo</button></div>`;
+  document.getElementById("modal").style.display="flex";
+}
+
+async function verificarVoto(){
+  const codigo=(document.getElementById("vcod")?.value||"").trim().toUpperCase();
+  if(!codigo) return;
+  const btn=document.getElementById("vbtn");
+  btn.innerHTML=`<span class="sp"></span>`;btn.disabled=true;
+  const d=await api({action:fase===1?"verificar_codigo":"verificar_codigo_f2",codigo});
+  btn.innerHTML="Acceder";btn.disabled=false;
+  if(!d.ok){document.getElementById("verr").textContent=d.error||"Codigo incorrecto";document.getElementById("verr").style.display="block";return;}
+  _codigo=codigo;_miGrupo=d.grupo;
+  sessionStorage.setItem("tt_cod",codigo);
+  const vd=await api({action:fase===1?"get_votos_f1":"get_votos_f2",codigo});
+  _sel=vd.ok?[...(vd.votos||[])]:[];
+  _matches=vd.ok?(vd.matches||[]):[];
+  render();scrollAl("sec-votar");
+}
+
+async function guardarVoto(){
+  const codigo=_codigo||sessionStorage.getItem("tt_cod");
+  if(!codigo){document.getElementById("vmsg").innerHTML=`<div class="err">Sesion expirada</div>`;return;}
+  const btn=document.getElementById("gvbtn");
+  btn.innerHTML=`<span class="sp"></span>`;btn.disabled=true;
+  const d=await api({action:fase===1?"votar_f1":"votar_f2",codigo,votos:_sel});
+  btn.innerHTML="Guardar elecciones";btn.disabled=false;
+  if(d.ok){
+    const vd=await api({action:fase===1?"get_votos_f1":"get_votos_f2",codigo});
+    if(vd.ok){_sel=vd.votos;_matches=vd.matches;}
+    document.getElementById("vmsg").innerHTML=`<div class="ok-msg">Elecciones guardadas</div>`;
+    setTimeout(()=>{render();scrollAl("sec-votar");},900);
+  } else {
+    document.getElementById("vmsg").innerHTML=`<div class="err">${d.error}</div>`;
+  }
+}
+
+function tog(bid,aid){const b=document.getElementById(bid),a=document.getElementById(aid);if(b)b.classList.toggle("o");if(a)a.classList.toggle("o");}
+function cerrar(){document.getElementById("modal").style.display="none";}
+function scrollAl(id){setTimeout(()=>document.getElementById(id)?.scrollIntoView({behavior:"smooth",block:"start"}),80);}
+setInterval(()=>{if(document.visibilityState==="visible")refrescarFondo();},60000);
+cargar();
+</script>
+</body>
+</html>
